@@ -28,3 +28,14 @@ print(f"Most frequent payment type: {most_freq_payment_type}")
 # Are any features missing data
 missing_values = training_df.isnull().sum().sum()
 print("Are any features missing data: ", "No" if missing_values == 0 else "Yes")
+
+# Generate a correlation matrix
+correlation_matrix = training_df.corr(numeric_only=True)
+print("\nCorrelation matrix:\n", correlation_matrix)
+
+# Find the strongest and weakest correlation with 'FARE'
+strongest_corr_feature = correlation_matrix['FARE'].drop('FARE').idxmax()
+weakest_corr_feature = correlation_matrix['FARE'].drop('FARE').idxmin()
+
+print(f"\nFeature that correlates most strongly with FARE: {strongest_corr_feature}")
+print(f"Feature that correlates least strongly with FARE: {weakest_corr_feature}")
