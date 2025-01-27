@@ -1,4 +1,9 @@
+import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import pandas as pd  # use for data manipulation and analysis
+import keras
+import seaborn as sns
+import ml_plotting as mp
 
 # load the csv file from the given URL and store as Dataframe
 chicago_taxi_dataset = pd.read_csv("https://download.mlcc.google.com/mledu-datasets/chicago_taxi_train.csv")
@@ -39,3 +44,23 @@ weakest_corr_feature = correlation_matrix['FARE'].drop('FARE').idxmin()
 
 print(f"\nFeature that correlates most strongly with FARE: {strongest_corr_feature}")
 print(f"Feature that correlates least strongly with FARE: {weakest_corr_feature}")
+
+# Visualize relationships between features in a dataset
+sns.pairplot(training_df, x_vars=["FARE", "TRIP_MILES", "TRIP_SECONDS"], y_vars=["FARE", "TRIP_MILES", "TRIP_SECONDS"])
+
+
+# Define ML functions
+
+def build_model(my_learning_rate, num_features):
+    #
+    inputs = keras.Input(shape=(num_features,))
+    outputs = keras.layers.Dense(units=1)(inputs)
+    model = keras.Model(inputs=inputs, outputs=outputs)
+
+    # Compile the model topography into code that Keras can efficiently
+    # execute. Configure training to minimize the model's mean squared error.
+    model.compile(optimizer=keras.optimizers.RMSprop(learning_rate=my_learning_rate),
+                  loss="mean_squared_error",
+                  metrics=[keras.metrics.RootMeanSquaredError()])
+
+    return model
