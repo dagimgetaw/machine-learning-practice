@@ -101,3 +101,17 @@ def run_experiment(df, feature_names, label_name, learning_rate, epochs, batch_s
 
 
 print("SUCCESS: defining linear regression functions complete.")
+
+
+# Experiment 1
+
+# The following variables are the hyperparameters.
+learning_rate = 0.001
+epochs = 20
+batch_size = 50
+
+# Specify the feature and the label.
+features = ['TRIP_MILES']
+label = 'FARE'
+
+model_1 = run_experiment(training_df, features, label, learning_rate, epochs, batch_size)
