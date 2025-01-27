@@ -81,3 +81,23 @@ def train_model(model, df, features, label, epochs, batch_size):
     rmse = hist["root_mean_squared_error"]
 
     return trained_weight, trained_bias, epochs, rmse
+
+
+def run_experiment(df, feature_names, label_name, learning_rate, epochs, batch_size):
+    print(f"INFO: starting training experiment with features={feature_names} and label={label_name}\n")
+    num_features = len(feature_names)
+
+    features = df.loc[:, feature_names].values
+    label = df[label_name].values
+
+    model = build_model(learning_rate, num_features)
+    model_output = train_model(model, df, features, label, epochs, batch_size)
+
+    print("\nSUCCESS: training experiment complete\n")
+    print(f"{mp.model_info(feature_names, label_name, model_output)}")
+    mp.make_plots(df, feature_names, label_name, model_output)
+
+    return model
+
+
+print("SUCCESS: defining linear regression functions complete.")
